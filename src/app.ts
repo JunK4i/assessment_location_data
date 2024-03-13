@@ -21,8 +21,6 @@ app.post("/api/location", (req, res) => {
     }
     const encryptedDataBuffer = Buffer.from(encryptedData, 'base64');
     const key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
-    console.log("Key length:", key.length); // Should log 32 for AES-256
-    console.log(process.env.ENCRYPTION_KEY);
     const decryptedData = middleware.decryptData(encryptedDataBuffer, key);
 
     if (decryptedData) {

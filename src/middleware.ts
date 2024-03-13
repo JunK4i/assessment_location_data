@@ -12,6 +12,10 @@ export const decryptData = (encryptedDataWithIv: Buffer, key: Buffer): string | 
         const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
         let decrypted = decipher.update(encryptedData);
         decrypted = Buffer.concat([decrypted, decipher.final()]);
+        console.log("iv:", iv);
+        console.log("key", key);
+        console.log("encryptedData:", encryptedData);
+        console.log("decrypted:", decrypted);
         return decrypted.toString();
     } catch (error) {
         console.error("Decryption failed:", error);
