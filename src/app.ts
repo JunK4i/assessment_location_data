@@ -36,7 +36,7 @@ app.post("/api/location", async (req, res) => {
             console.log("Decrypted data:", decryptedData);
             // Broadcast the decrypted data to all connected WebSocket clients
             wss.clients.forEach(client => {
-                if (client.readyState === ws.OPEN) {
+                if (client.readyState === WebSocket.OPEN) {
                     client.send(JSON.stringify(decryptedData));
                 }
             });
