@@ -8,8 +8,8 @@ export const decryptData = (encryptedDataWithIv: Buffer, key: Buffer): string | 
     const IV_LENGTH = 12; // For AES-256 GCM
     try {
         const iv = encryptedDataWithIv.subarray(0, IV_LENGTH);
-        console.log("iv:", iv);
-        console.log("key", key);
+        console.log("iv:", iv, iv.length);
+        console.log("key", key, key.length);
         const encryptedData = encryptedDataWithIv.subarray(IV_LENGTH);
         console.log("encryptedData:", encryptedData);
         const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
