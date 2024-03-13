@@ -26,9 +26,9 @@ app.post("/api/location", (req, res) => {
 
     if (decryptedData) {
         console.log("Decrypted data:", decryptedData);
-        res.send({ message: "Data decrypted successfully", data: decryptedData });
+        return res.send({ message: "Data decrypted successfully", data: decryptedData });
     } else {
-        res.status(500).send({ error: "Failed to decrypt data" });
+        return res.status(500).send({ error: "Failed to decrypt data" });
     }  });
 // app.use("/api", inventoryRouter);
 
