@@ -1,14 +1,22 @@
 import { config } from 'dotenv';
-import {app} from "./app";
+import {app, wss} from "./app";
+import ws from "ws";
+import http from "http";
 
 if (process.env.NODE_ENV !== 'production') {
   config();
 }
-
-// const server = http.createServer(app); 
 
 const port = process.env.PORT || 3333;
 
 app.listen(port, () =>
   console.log(`API available on http://localhost:${port}`)
 );
+
+// Setup HTTP server and attach Express app
+const server = http.createServer(app);
+server.on('upgrade', (request, socket, head) => {
+    wss.handleUpgrade(request, socket, head, (socket) => {
+        wss.emit('connection', socket, request);
+    });
+});
