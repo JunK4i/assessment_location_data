@@ -23,31 +23,34 @@ app.get("/", (req, res) => {
   res.status(200).send({ status: "ok" });
 });
 
-app.post("/api/location", (req, res) => {
-    const { encryptedData } = req.body; 
-    if (!encryptedData) {
-        return res.status(400).send({ error: "Missing encrypted data" });
-    }
-    const encryptedDataBuffer = Buffer.from(encryptedData, 'base64');
-    const key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
-    middleware.decryptData(encryptedDataBuffer, key).then(decryptedData => {
+app.post("/api/location", async (req, res) => {
+    try {
+        const { encryptedData } = req.body; 
+        if (!encryptedData) {
+            return res.status(400).send({ error: "Missing encrypted data" });
+        }
+        const encryptedDataBuffer = Buffer.from(encryptedData, 'base64');
+        const key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
+        const decryptedData = await middleware.decryptData(encryptedDataBuffer, key);
         if (decryptedData) {
             console.log("Decrypted data:", decryptedData);
             // Broadcast the decrypted data to all connected WebSocket clients
             wss.clients.forEach(client => {
                 if (client.readyState === ws.OPEN) {
-                    return client.send(JSON.stringify(decryptedData));
+                    client.send(JSON.stringify(decryptedData));
                 }
             });
             return res.send({ message: "Data decrypted successfully", data: decryptedData });
         } else {
             return res.status(500).send({ error: "Failed to decrypt data" });
         }
-    }).catch(error => {
+    } catch (error) {
         console.error("Failed to decrypt data:", error);
         return res.status(500).send({ error: "Failed to decrypt data" });
-    });
+    }
 });
+
+
 
 app.use(middleware.unknownEndpoint);
 
