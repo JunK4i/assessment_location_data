@@ -19,9 +19,10 @@ app.post("/api/location", (req, res) => {
     if (!encryptedData) {
         return res.status(400).send({ error: "Missing encrypted data" });
     }
-
     const encryptedDataBuffer = Buffer.from(encryptedData, 'base64');
     const key = Buffer.from(process.env.ENCRYPTION_KEY, 'base64');
+    console.log("Key length:", key.length); // Should log 32 for AES-256
+    console.log(process.env.ENCRYPTION_KEY);
     const decryptedData = middleware.decryptData(encryptedDataBuffer, key);
 
     if (decryptedData) {
