@@ -1,11 +1,4 @@
-import { createDecipheriv, randomBytes } from 'crypto';
 import crypto from 'crypto';
-
-
-interface DecryptionResult {
-    plaintext: string;
-    error: Error | null;
-}
 
 export const unknownEndpoint = (req, res) => {
     res.status(404).send({ error: `uknonwn endpoint` });
