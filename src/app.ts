@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import * as middleware from "./middleware";
-const app = express();
+export const app = express();
 
 app.use(cors({ origin: true }));
 app.use(express.json());
@@ -35,4 +35,3 @@ app.post("/api/location", (req, res) => {
 // custom middleware
 app.use(middleware.unknownEndpoint);
 
-export default app;
