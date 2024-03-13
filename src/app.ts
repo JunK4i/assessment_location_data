@@ -1,17 +1,13 @@
 import express from "express";
 import cors from "cors";
-import morgan from "morgan";
 import * as middleware from "./middleware";
 const app = express();
 
-// parse json request body
+app.use(cors({ origin: true }));
 app.use(express.json());
+app.use(express.raw({ type: 'application/vnd.custom-type' }));
+app.use(express.text({ type: 'text/html' }));
 
-// enable cors
-app.use(cors());
-
-// request logger middleware
-app.use(morgan("tiny"));
 
 // healthcheck endpoint
 app.get("/", (req, res) => {
