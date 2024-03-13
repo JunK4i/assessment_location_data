@@ -1,10 +1,12 @@
 import { config } from 'dotenv';
+import http from "http";
+import app from "./app";
 
 if (process.env.NODE_ENV !== 'production') {
   config();
 }
-// call after config() to access the env variables
-import { app } from './api';
+
+const server = http.createServer(app); 
 
 const port = process.env.PORT || 3333;
 
