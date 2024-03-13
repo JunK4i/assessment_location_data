@@ -20,6 +20,7 @@ app.post("/api/location", (req, res) => {
         return res.status(400).send({ error: "Missing encrypted data" });
     }
     const encryptedDataBuffer = Buffer.from(encryptedData, 'base64');
+    console.log("Encrypted data:", encryptedData);
     const key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
     const decryptedData = middleware.decryptData(encryptedDataBuffer, key);
 
