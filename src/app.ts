@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import * as middleware from "./middleware";
-import ws from "ws";
+import WebSocket from 'ws';
 
 export const app = express();
 
@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.raw({ type: 'application/vnd.custom-type' }));
 app.use(express.text({ type: 'text/html' }));
 
-export const wss = new ws.Server({ noServer: true });
+export const wss = new WebSocket.Server({ noServer: true });
 
 wss.on('connection', (socket) => {
     console.log('WebSocket Client Connected');

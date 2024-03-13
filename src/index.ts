@@ -1,6 +1,5 @@
 import { config } from 'dotenv';
 import {app, wss} from "./app";
-import ws from "ws";
 import http from "http";
 
 if (process.env.NODE_ENV !== 'production') {
