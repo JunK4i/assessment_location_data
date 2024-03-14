@@ -46,11 +46,11 @@ app.post("/api/location", async (req, res) => {
     if (decryptedData) {
         console.log("Decrypted data:", decryptedData);
         // Broadcast the decrypted data to all connected WebSocket clients
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify(decryptedData));
-            }
-        });
+        // wss.clients.forEach(client => {
+        //     if (client.readyState === WebSocket.OPEN) {
+        //         client.send(JSON.stringify(decryptedData));
+        //     }
+        // });
         return res.send({ message: "Data decrypted successfully", data: decryptedData });
     } else {
         return res.status(500).send({ error: "Failed to decrypt data" });
@@ -66,7 +66,6 @@ app.use(middleware.unknownEndpoint);
 // Create an HTTP server and attach the Express app
 const server = http.createServer(app);
 server.on('upgrade', (request, socket, head) => {
-    // Upgrade HTTP requests to WebSocket connections
     wss.handleUpgrade(request, socket, head, (socket) => {
         wss.emit('connection', socket, request);
     });
