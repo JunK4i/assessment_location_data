@@ -20,13 +20,13 @@ app.use(express.raw({ type: 'application/vnd.custom-type' }));
 app.use(express.text({ type: 'text/html' }));
 
 // Initialize WebSocket server with no associated HTTP server
-const wss = new WebSocket.Server({ noServer: true });
+// const wss = new WebSocket.Server({ noServer: true });
 
-// WebSocket connection handler
-wss.on('connection', (socket) => {
-    console.log('WebSocket Client Connected');
-    socket.on('close', () => console.log('Client disconnected'));
-});
+// // WebSocket connection handler
+// wss.on('connection', (socket) => {
+//     console.log('WebSocket Client Connected');
+//     socket.on('close', () => console.log('Client disconnected'));
+// });
 
 // Healthcheck endpoint
 app.get("/", (req, res) => {
@@ -63,13 +63,13 @@ app.post("/api/location", async (req, res) => {
 // Handle unknown endpoints
 app.use(middleware.unknownEndpoint);
 
-// Create an HTTP server and attach the Express app
+// // Create an HTTP server and attach the Express app
 const server = http.createServer(app);
-server.on('upgrade', (request, socket, head) => {
-    wss.handleUpgrade(request, socket, head, (socket) => {
-        wss.emit('connection', socket, request);
-    });
-});
+// server.on('upgrade', (request, socket, head) => {
+//     wss.handleUpgrade(request, socket, head, (socket) => {
+//         wss.emit('connection', socket, request);
+//     });
+// });
 
 const port = process.env.PORT || 3333;
 server.listen(port, () => console.log(`Server running on http://localhost:${port}`));
